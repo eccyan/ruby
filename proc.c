@@ -2740,7 +2740,8 @@ curry(VALUE dummy, VALUE args, int argc, VALUE *argv, VALUE passed_proc)
 	return arity;
     }
     else {
-	return rb_proc_call_with_block(proc, check_argc(RARRAY_LEN(passed)), RARRAY_CONST_PTR(passed), passed_proc);
+	VALUE corrected_passed_proc = (SYMBOL_P(passed_proc)) ? sym_proc_new(rb_cProc, passed_proc) : passed_proc;
+	return rb_proc_call_with_block(proc, check_argc(RARRAY_LEN(passed)), RARRAY_CONST_PTR(passed), corrected_passed_proc);
     }
 }
 

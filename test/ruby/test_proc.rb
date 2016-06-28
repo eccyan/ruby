@@ -283,6 +283,18 @@ class TestProc < Test::Unit::TestCase
     assert_equal(9, b)
   end
 
+  def test_curry_with_block
+    b = proc { true }.curry
+    assert(b.call, "without block")
+    assert(b.call { |o| o.to_s }, "with block")
+    assert(b.call(&:to_s), "with sym block")
+
+    b = lambda { true }.curry
+    assert(b.call, "without block")
+    assert(b.call { |o| o.to_s }, "with block")
+    assert(b.call(&:to_s), "with sym block")
+  end
+
   def test_lambda?
     l = proc {}
     assert_equal(false, l.lambda?)
